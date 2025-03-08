@@ -1,10 +1,7 @@
 package me.dio.avanade_2024.controller;
 
 import me.dio.avanade_2024.domain.model.Movie;
-import me.dio.avanade_2024.domain.model.User;
 import me.dio.avanade_2024.service.MovieService;
-import me.dio.avanade_2024.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -23,13 +20,23 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-
-    @GetMapping
-    public List<Movie> getAllMovies() {
-        return movieService.findAll();
+    @GetMapping("{id}")
+    public ResponseEntity<Movie> getMovie(@PathVariable Long id) {
+        Movie movie = movieService.findById(id);
+        return (movie!=null) ? ResponseEntity.ok(movie) : ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/title/{title}")
+    public ResponseEntity<Movie> getMovieByTitle(@PathVariable String title) {
+        Optional<Movie> movie = movieService.findByTitle(title);
+        return movie.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
+    }
 
+    @GetMapping
+    public ResponseEntity<List<Movie>> getAllMovies() {
+        List<Movie> movies = movieService.findAll();
+        return ResponseEntity.ok(movies);
+    }
 
     @PostMapping
     public ResponseEntity<Movie> save(@RequestBody Movie movieToCreate) {

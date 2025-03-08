@@ -1,9 +1,11 @@
 package me.dio.avanade_2024.security;
 
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -22,6 +24,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
+
     @Autowired
     SecurityFilter securityFilter;
 
@@ -33,6 +36,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers("/v3/api-doc/**", "swagger-ui/**", "swagger-ui.html").permitAll()
                         .requestMatchers(HttpMethod.POST, "/movie").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

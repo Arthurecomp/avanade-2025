@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,8 +25,13 @@ public class User  {
     @OneToOne(cascade = CascadeType.ALL)
     private Credentials credentials;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Movie> watchedMovies;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_watched_movies",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_id")
+    )
+    private List<Movie> watchedMovies = new ArrayList<>();
 
     public User(String name, Credentials credentials) {
         this.name = name;

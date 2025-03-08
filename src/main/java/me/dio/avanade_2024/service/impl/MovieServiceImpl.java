@@ -2,11 +2,11 @@ package me.dio.avanade_2024.service.impl;
 
 import me.dio.avanade_2024.domain.model.Movie;
 import me.dio.avanade_2024.domain.repository.MovieRepository;
-import me.dio.avanade_2024.domain.repository.UserRepository;
 import me.dio.avanade_2024.service.MovieService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -17,18 +17,18 @@ public class MovieServiceImpl implements MovieService {
         this.movieRepository = movieRepository;
     }
     @Override
-    public Movie findById(Long id) {
-        return null;
+    public Movie findById(Long id){
+        return movieRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Movie findByTitle(String title) {
-        return null;
+    public Optional<Movie> findByTitle(String title) {
+        return movieRepository.findByTitle(title);
     }
 
     @Override
     public List<Movie> findAll() {
-        return List.of();
+        return movieRepository.findAll();
     }
 
     @Override

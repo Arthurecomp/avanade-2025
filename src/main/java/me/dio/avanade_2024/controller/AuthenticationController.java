@@ -9,6 +9,7 @@ import me.dio.avanade_2024.domain.repository.CredentialsRepository;
 import me.dio.avanade_2024.domain.repository.UserRepository;
 import me.dio.avanade_2024.security.TokenService;
 import me.dio.avanade_2024.service.UserService;
+import me.dio.avanade_2024.service.impl.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,6 +35,8 @@ public class AuthenticationController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthorizationService authorizationService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
@@ -55,9 +58,13 @@ public class AuthenticationController {
         if(this.credentialsRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        Credentials newCredentials = new Credentials(data.email(), encryptedPassword, data.role());
 
-        this.credentialsRepository.save(newCredentials);
-        return ResponseEntity.ok().build();
+        User user = authorizationService.register(data);
+
+//        Credentials newCredentials = new Credentials(data.email(), encryptedPassword, data.role());
+
+//        this.credentialsRepository.save(newCredentials);
+
+        return ResponseEntity.ok(user);
     }
 }
