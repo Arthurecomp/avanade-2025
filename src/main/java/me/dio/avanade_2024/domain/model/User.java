@@ -33,19 +33,12 @@ public class User  {
     )
     private List<Movie> watchedMovies = new ArrayList<>();
 
-    public User(String name, Credentials credentials) {
-        this.name = name;
-        this.credentials = credentials;
-    }
-
     public User() {
-
     }
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,  fetch = FetchType.EAGER)
+    private List<Review> reviews = new ArrayList<>();
 
-//    @OneToMany(cascade = CascadeType.ALL,  fetch = FetchType.EAGER)
-//    private List<Review> reviews;
-//
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    private List<Favorite> favorites;
 

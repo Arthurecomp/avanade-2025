@@ -15,16 +15,11 @@ public class Review {
     private String comment;
     private int rating;
     @ManyToOne
+    @JoinColumn(name = "movie_id")
     private Movie movie;
-
-    public Review(String comment, int rating, Movie movie) {
-        this.comment = comment;
-        this.rating = rating;
-        this.movie = movie;
-    }
-    public Review() {
-
-    }
+    @ManyToOne
+    @JoinColumn(name= "user_id")
+    private User user;
 
 
 }
