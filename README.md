@@ -1,18 +1,17 @@
-Usuário
+# Aplicação Spring Boot - Sistema de Filmes
 
-O Usuário pode ter filmes assistidos, críticas, e favoritos.
-O relacionamento com Credenciais (email e senha) segue a mesma lógica do diagrama anterior.
-Filmes
+Este projeto foi desenvolvido como parte do **Bootcamp da Avanade** e visa fornecer uma plataforma onde os usuários podem registrar filmes assistidos, fazer críticas e manter uma lista de favoritos. A aplicação foi construída utilizando o **Spring Boot** e inclui **autenticação JWT** para segurança.
 
-Um Filme tem atributos como título, gênero, descrição, ano de lançamento e diretor.
-Críticas
+## Funcionalidades
 
-O Usuário pode fazer críticas a filmes, que contêm comentários e classificação (nota de 1 a 5).
-Favoritos
+- **Autenticação JWT**: O sistema implementa autenticação segura através de tokens JWT, garantindo que apenas usuários autenticados possam acessar as funcionalidades.
+- **Filmes**: Os usuários podem visualizar e interagir com filmes, com atributos como título, gênero, descrição, ano de lançamento e diretor.
+- **Críticas**: Os usuários podem fazer críticas aos filmes com comentários e uma classificação de 1 a 5 estrelas.
+- **Favoritos**: O sistema permite que os usuários adicionem filmes à sua lista de favoritos.
 
-O Usuário pode ter uma lista de filmes favoritos.
+## Diagrama de Classes
 
-### Diagrama de classes
+O diagrama a seguir descreve as entidades principais e seus relacionamentos:
 
 ```mermaid
 classDiagram
@@ -52,7 +51,9 @@ classDiagram
     Usuario "1" *--> "N" Review
     Usuario "1" *--> "N" Favorite
     Movie "1" *--> "N" Review
-
-
-
 ```
+## Tecnologias Utilizadas
+- Spring Boot: Framework para desenvolvimento de aplicações Java.
+- JWT (JSON Web Token): Implementação de autenticação e autorização baseada em tokens JWT.
+- JPA (Java Persistence API): Para persistência de dados no banco de dados.
+- H2 Database: Banco de dados embutido para armazenamento dos dados da aplicação.
