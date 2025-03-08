@@ -1,11 +1,22 @@
 package me.dio.avanade_2024.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
+//@JsonInclude(JsonInclude.Include.ALWAYS)
 @Entity(name = "tb_user")
-public class User {
+@Getter
+@Setter
+public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,60 +24,24 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Credentials credentials;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Movie> watchedMovies;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Review> reviews;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Favorite> favorites;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public User(String name, Credentials credentials) {
         this.name = name;
-    }
-
-    public Credentials getCredentials() {
-        return credentials;
-    }
-
-    public void setCredentials(Credentials credentials) {
         this.credentials = credentials;
     }
 
-    public List<Movie> getWatchedMovies() {
-        return watchedMovies;
+    public User() {
+
     }
 
-    public void setWatchedMovies(List<Movie> watchedMovies) {
-        this.watchedMovies = watchedMovies;
-    }
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
+//    @OneToMany(cascade = CascadeType.ALL,  fetch = FetchType.EAGER)
+//    private List<Review> reviews;
+//
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<Favorite> favorites;
 
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
 
-    public List<Favorite> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(List<Favorite> favorites) {
-        this.favorites = favorites;
-    }
 }
